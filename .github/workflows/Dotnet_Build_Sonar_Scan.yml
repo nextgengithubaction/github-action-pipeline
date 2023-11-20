@@ -1,0 +1,71 @@
+name:  Dotnet Build, Test and Scan
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  Dotnet_Process:
+    runs-on: dindrunner
+    steps:
+      - uses: actions/checkout@v2.2.0
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of sonarqube reporting
+          fetch-depth: 0
+
+      - name: Set up HashiCorp Vault 
+        uses: hashicorp/vault-action@v2 
+        with: 
+         #Reading secrets from Github secrets 
+          url: "${{ secrets.VAULT_URL }}" 
+          token: "${{ secrets.VAULT_SECRET }}" 
+          tlsSkipVerify: true 
+          #Reading secrets from hashicorp vault 
+          secrets: | 
+            secret/data/githubactions SONAR_TOKEN |SONAR_TOKEN
+
+      - name: Curl install
+        run: |
+          sudo apt-get update -y
+          sudo apt install curl -y
+          sudo apt install wget -y
+          sudo mkdir /usr/bin/dotnet
+          sudo chmod +wx /usr/bin/dotnet
+          sudo chown runner:runner /usr/bin/dotnet
+          wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb
+          sudo dpkg -i libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb
+
+      - name: Setup .NET Core SDK
+        env:
+          DOTNET_INSTALL_DIR: "/usr/bin/dotnet"
+        uses: actions/setup-dotnet@v3.2.0
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Sonarqube Begin
+        run: | 
+          sudo apt-get update -y
+          sudo apt-get install --yes openjdk-11-jre
+          dotnet tool install --global dotnet-sonarscanner
+          export PATH="$PATH:/home/runner/.dotnet/tools"
+          ls -ltR /home/runner/.dotnet/tools
+          dotnet sonarscanner begin /o:jayseth /k:Github-Test-Org /d:sonar.login=${{ env.SONAR_TOKEN }} /s:$GITHUB_WORKSPACE/SonarQube.Analysis.xml /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+
+      - name: Build
+        run: |
+          dotnet build
+          
+      - name: Test with the dotnet CLI
+        run: dotnet test --settings coverlet.runsettings --logger:trx
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+
+      - name: Sonarqube end
+        run: |
+          export PATH="$PATH:/home/runner/.dotnet/tools"
+          dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

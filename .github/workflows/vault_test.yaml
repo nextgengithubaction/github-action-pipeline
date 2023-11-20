@@ -1,0 +1,29 @@
+name: Read Vault Secret1
+
+on:
+  workflow_dispatch:
+  push:
+   branches:
+    "develop"
+
+jobs:
+  read-vault-secret:
+    runs-on: dindrunner
+#Github actions to read from hashicorp vault
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up HashiCorp Vault
+        uses: hashicorp/vault-action@v2
+        with:
+          url: "http://10.224.0.15"
+          token: "hvs.WKAR6oCkRsEFj24om4KWe09q"
+          tlsSkipVerify: true
+          secrets: |
+            secret/data/githubactions SONAR_HOST_URL |SONAR_HOST_URL
+
+      - name: Display Secret
+        run: |
+          # The secret value will be available as an environment variable
+          echo "Secret Value: ${{env.SONAR_HOST_URL}}"

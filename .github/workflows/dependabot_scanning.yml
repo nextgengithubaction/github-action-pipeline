@@ -1,0 +1,24 @@
+# This workflow performs Dependency review of project
+
+name: 'Dependency Review'
+on: 
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: dindrunner
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v3
+        with:
+          config-file: './.github/dependabot/dependency-review-config.yml'
+          base-ref: '${{ github.ref }}'
+          head-ref: '${{ github.ref }}'
+          

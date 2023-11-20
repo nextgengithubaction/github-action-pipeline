@@ -1,0 +1,67 @@
+name: "CodeQL Analysis"
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  analyze:
+    name: CodeQL Analysis
+    runs-on: dindrunner
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'csharp' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Curl install
+      run: |
+          sudo apt-get update -y
+          sudo apt install curl -y
+          sudo apt install wget -y
+          sudo mkdir /usr/bin/dotnet
+          sudo chmod +wx /usr/bin/dotnet
+          sudo chown runner:runner /usr/bin/dotnet
+          wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb
+          sudo dpkg -i libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb
+
+    - name: Setup .NET Core SDK
+      env:
+        DOTNET_INSTALL_DIR: "/usr/bin/dotnet"
+      uses: actions/setup-dotnet@v3.2.0
+      with:
+        dotnet-version: '7.0.x'
+
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        queries: ./.github/codeql/custom-queries
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+
+  map_vulnerabilities_with_jira:
+   name: Create Jira Ticket
+   needs: analyze
+   uses: ./.github/workflows/get-codeql-vulnerability-details.yml
+   secrets: inherit
+   permissions:
+      security-events: read
+      contents: read
+      actions: read
+      

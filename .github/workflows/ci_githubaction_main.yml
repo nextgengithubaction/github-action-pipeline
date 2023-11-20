@@ -1,0 +1,46 @@
+name:  CI - Integrated Workflow
+
+on:
+  workflow_dispatch:
+  push:
+   branches:
+     - "develop"
+     - "feature_app_insights_test"
+     - anauska-integration
+
+jobs:
+  SonarScan: 
+    uses: ./.github/workflows/Dotnet_Build_Sonar_Scan.yml
+    secrets: inherit
+
+  CodeQL: 
+    uses: ./.github/workflows/codeql.yml
+    secrets: inherit
+    permissions:
+      actions: read
+      security-events: write
+      contents: read
+
+  SonarJIRA:
+    needs: SonarScan
+    uses: ./.github/workflows/Sonar_Python_Jira.yml
+    secrets: inherit
+
+  Dependabot:
+    uses: ./.github/workflows/dependabot_scanning.yml
+
+  Checkmarx:
+    uses: ./.github/workflows/checkmarx.yml
+    secrets: inherit
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+  # JFROG_Publish:
+  #   uses: ./.github/workflows/jfrog.yml
+  #   needs: [SonarScan, CodeQL, SonarJIRA, Dependabot, Checkmarx]
+  BuildandDeploy:
+    uses: ./.github/workflows/harness_deployment.yaml
+    needs: [SonarScan, CodeQL, SonarJIRA, Dependabot, Checkmarx]
+    secrets: inherit
