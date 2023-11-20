@@ -38,9 +38,14 @@ jobs:
     secrets: inherit
   CDInvocation:
    runs-on: dindrunner
+   permissions: 
+     contents: write
+     security-events: write
+     actions: write
    steps:
      - name: Repository Dispatch
        uses: peter-evans/repository-dispatch@v2
        with:
           event-type: my-event
+          token: ${{ secrets.GITHUB_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
