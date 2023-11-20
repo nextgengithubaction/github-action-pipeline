@@ -1,38 +1,38 @@
-name: CI - Integrated Workflow
+name: CI
 
 on:
   workflow_dispatch:
 
 jobs:
-  SonarScan: 
-    uses: ./.github/workflows/Dotnet_Build_Sonar_Scan.yml
-    secrets: inherit
-
-  CodeQL: 
-    uses: ./.github/workflows/codeql.yml
-    secrets: inherit
-    permissions:
-      actions: read
-      security-events: write
-      contents: read
-
-  SonarJIRA:
-    needs: SonarScan
-    uses: ./.github/workflows/Sonar_Python_Jira.yml
-    secrets: inherit
-
-  Dependabot:
-    uses: ./.github/workflows/dependabot_scanning.yml
-
-  Checkmarx:
-    uses: ./.github/workflows/checkmarx.yml
-    secrets: inherit
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
-
+#  SonarScan: 
+#    uses: ./.github/workflows/Dotnet_Build_Sonar_Scan.yml
+#    secrets: inherit
+#
+#  CodeQL: 
+#    uses: ./.github/workflows/codeql.yml
+#    secrets: inherit
+#    permissions:
+#      actions: read
+#      security-events: write
+#      contents: read
+#
+#  SonarJIRA:
+#    needs: SonarScan
+#    uses: ./.github/workflows/Sonar_Python_Jira.yml
+#    secrets: inherit
+#
+#  Dependabot:
+#    uses: ./.github/workflows/dependabot_scanning.yml
+#
+#  Checkmarx:
+#    uses: ./.github/workflows/checkmarx.yml
+#    secrets: inherit
+#    permissions:
+#      contents: read
+#      security-events: write
+#      actions: read
+#
   BuildandDeploy:
     uses: ./.github/workflows/build_and_push.yaml
-    needs: [SonarScan, CodeQL, SonarJIRA, Dependabot, Checkmarx]
+    #needs: [SonarScan, CodeQL, SonarJIRA, Dependabot, Checkmarx]
     secrets: inherit
