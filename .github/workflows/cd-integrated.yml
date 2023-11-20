@@ -2,10 +2,9 @@ name: CD - Integrated Workflow
 
 on:
   workflow_run:
-    workflows: ["CI - Integrated Workflow"]
+    workflows: "CI - Integrated Workflow"
     types:
       - completed
-
 jobs:
   Deployment:
     uses: ./.github/workflows/harness_deployment.yaml
