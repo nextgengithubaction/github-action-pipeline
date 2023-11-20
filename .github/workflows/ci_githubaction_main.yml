@@ -33,6 +33,6 @@ jobs:
       actions: read
 
   BuildandDeploy:
-    uses: ./.github/workflows/harness_deployment.yaml
+    uses: ./.github/workflows/build_and_push.yaml
     needs: [SonarScan, CodeQL, SonarJIRA, Dependabot, Checkmarx]
     secrets: inherit
