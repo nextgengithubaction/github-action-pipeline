@@ -34,9 +34,9 @@ jobs:
       - name: Install a new Chromium
         run: |
 
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-buster.gpg] http://deb.debian.org/debian buster main" >>/etc/apt/sources.list.d/debian.list
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-buster-updates.gpg] http://deb.debian.org/debian buster-updates main">>/etc/apt/sources.list.d/debian.list
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-security-buster.gpg] http://deb.debian.org/debian-security buster/updates main">>/etc/apt/sources.list.d/debian.list
+          sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-buster.gpg] http://deb.debian.org/debian buster main" >>/etc/apt/sources.list.d/debian.list
+          sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-buster-updates.gpg] http://deb.debian.org/debian buster-updates main">>/etc/apt/sources.list.d/debian.list
+          sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-security-buster.gpg] http://deb.debian.org/debian-security buster/updates main">>/etc/apt/sources.list.d/debian.list
 
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys DCC9EFBF77E11517
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138
@@ -46,7 +46,7 @@ jobs:
           sudo apt-key export 22F3D138 | sudo gpg --dearmour -o /usr/share/keyrings/debian-buster-updates.gpg
           sudo apt-key export E562B32A | sudo gpg --dearmour -o /usr/share/keyrings/debian-security-buster.gpg
 
-          echo "# Note: 2 blank lines are required between entries
+          sudo echo "# Note: 2 blank lines are required between entries
           Package: *
           Pin: release a=eoan
           Pin-Priority: 500
