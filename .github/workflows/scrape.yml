@@ -33,6 +33,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt install -y chromium-browser
+          sudo apt install -y chromium
           echo "Installed version:-"
           which chromium-browser
           chromium-browser
