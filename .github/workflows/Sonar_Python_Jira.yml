@@ -21,6 +21,7 @@ jobs:
           tlsSkipVerify: true 
           #Reading secrets from hashicorp vault 
           secrets: | 
+            secret/data/githubactions JIRA_BASE_URL |JIRA_BASE_URL;
             secret/data/githubactions JIRA_USERNAME |JIRA_USERNAME;
             secret/data/githubactions JIRA_TOKEN |JIRA_TOKEN;
             secret/data/githubactions SONAR_TOKEN |SONAR_TOKEN
