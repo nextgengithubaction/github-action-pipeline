@@ -48,4 +48,3 @@ jobs:
        with:
           event-type: my-event
           token: ${{ secrets.GITHUB_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
