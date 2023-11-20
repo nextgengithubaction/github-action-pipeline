@@ -1,14 +1,21 @@
 name: CD - Integrated Workflow
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build and Harness Deployment"]
+    types:
+      - completed
 
 jobs:
-
+  Deployment:
+    uses: ./.github/workflows/harness_deployment.yaml
+    with:
+      secrets: ${{ secrets }}
+      
   selenium:
     uses: ./.github/workflows/scrape.yml
-  
+
   blazemeter:
     uses: ./.github/workflows/blazemeter.yml
-    secrets: inherit
-    
+    with:
+      secrets: ${{ secrets }}
