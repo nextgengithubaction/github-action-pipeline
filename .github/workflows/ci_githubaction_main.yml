@@ -37,7 +37,9 @@ jobs:
     #needs: [SonarScan, CodeQL, SonarJIRA, Dependabot, Checkmarx]
     secrets: inherit
   CDInvocation:
-      name: Repository Dispatch
-      uses: peter-evans/repository-dispatch@v2
-      with:
+   runs-on: dindrunner
+   steps:
+     - name: Repository Dispatch
+       uses: peter-evans/repository-dispatch@v2
+       with:
           event-type: my-event
