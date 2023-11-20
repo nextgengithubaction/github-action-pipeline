@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
 jobs:
   build:
+    outputs:
+      imageTag: ${{ steps.generate_image_tag.outputs.IMAGE_TAG }}
     runs-on: dindrunner
     steps:
     - name: Checkout code
@@ -39,6 +41,7 @@ jobs:
         docker build -t helloworld-app:${{ env.IMAGE_TAG }} .
         docker tag helloworld-app:${{ env.IMAGE_TAG }} gitopsdemo2023.azurecr.io/helloworld-app:${{ env.IMAGE_TAG }}
         docker push gitopsdemo2023.azurecr.io/helloworld-app:${{ env.IMAGE_TAG }}
+        echo ${{ env.IMAGE_TAG }}>>$GITHUB_ENV
 
     - name: Helm Package
       env:
