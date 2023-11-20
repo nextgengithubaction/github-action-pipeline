@@ -43,3 +43,4 @@ jobs:
        uses: peter-evans/repository-dispatch@v2
        with:
           event-type: my-event
+          token: ${{ secrets.GITHUB_TOKEN }}
