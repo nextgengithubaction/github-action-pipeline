@@ -33,11 +33,11 @@ jobs:
       
       - name: Install a new Chromium
         run: |
-          sudo mkdir /usr/share/keyrings
+          # sudo mkdir /usr/share/keyrings
           sudo chmod +wx /usr/share/keyrings
           sudo chown runner:runner /usr/share/keyrings
 
-          sudo mkdir /etc/apt/preferences.d/
+          # sudo mkdir /etc/apt/preferences.d/
           sudo chmod +wx /etc/apt/preferences.d/
           sudo chown runner:runner /etc/apt/preferences.d/
 
