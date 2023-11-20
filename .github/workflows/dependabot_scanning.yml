@@ -18,7 +18,7 @@ jobs:
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v3
         with:
-          config-file: './.github/dependabot/dependency-review-config.yml'
+          config-file: './.github/dependabot.yml'
           base-ref: '${{ github.ref }}'
           head-ref: '${{ github.ref }}'
           
