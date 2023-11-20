@@ -2,6 +2,8 @@ name: Selenium Scraper
 on:
   workflow_call:
   workflow_dispatch:
+  push:
+    paths: '**/scrape.yml'
 
 # Variables taken from repo secrets - can be replaced with passed variables for composite actions
 env:
@@ -23,10 +25,10 @@ jobs:
           python-version: 3.9
       - name: Installed package list
         run: apt list --installed
-      - name: Remove Chrome
-        run: sudo apt purge google-chrome-stable
-      - name: Remove default Chromium
-        run: sudo apt purge chromium-browser
+      # - name: Remove Chrome
+      #   run: sudo apt purge google-chrome-stable
+      # - name: Remove default Chromium
+      #   run: sudo apt purge chromium-browser
       - name: Install a new Chromium
         run: sudo apt install -y chromium-browser
       - name: Install all necessary packages
