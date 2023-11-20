@@ -42,8 +42,8 @@ jobs:
         uses: BlazeRunner-BZR/Github-Action@v8.2
         id: run-test
         with:
-          apiKey: ce097e74614ea72932da324d
-          apiSecret: f1282b29c916830ab1409486feae7122cf298f6961a182054da71119bb747b1babaa6dd5
+          apiKey: a5bfd83813f102a2b7a68aa5
+          apiSecret: b7a348cd9ec51115bf56df958d065f182640358511db830ea1cb72a2c00ba5806cd890fd
           createTest: ${{env.createTest}}
           inputStartFile: ${{env.inputStartFile}}
           testName: ${{env.testName}}
