@@ -4,9 +4,7 @@ on:
   workflow_dispatch:
   push:
    branches:
-     - "develop"
-     - "feature_app_insights_test"
-     - anauska-integration
+     - "main"
 
 jobs:
   SonarScan: 
@@ -37,9 +35,6 @@ jobs:
       security-events: write
       actions: read
 
-  # JFROG_Publish:
-  #   uses: ./.github/workflows/jfrog.yml
-  #   needs: [SonarScan, CodeQL, SonarJIRA, Dependabot, Checkmarx]
   BuildandDeploy:
     uses: ./.github/workflows/harness_deployment.yaml
     needs: [SonarScan, CodeQL, SonarJIRA, Dependabot, Checkmarx]
