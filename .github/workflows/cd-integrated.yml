@@ -1,8 +1,11 @@
 name: CD - Integrated Workflow
 
 on:
-  repository_dispatch:
-    types: ["CI"]
+  workflow_run:
+    workflows: ["CI"]
+    types: [requested]
+    branches:
+      - 'develop'
 jobs:
   Deployment:
     uses: ./.github/workflows/harness_deployment.yaml
