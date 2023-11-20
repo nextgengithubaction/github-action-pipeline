@@ -1,4 +1,4 @@
-name:  CI - Integrated Workflow
+name: CI - Integrated Workflow
 
 on:
   workflow_dispatch:
