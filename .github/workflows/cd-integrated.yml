@@ -2,7 +2,7 @@ name: CD - Integrated Workflow
 
 on:
   workflow_run:
-    workflows: ["Build and Harness Deployment"]
+    workflows: ["CI - Integrated Workflow"]
     types:
       - completed
 
