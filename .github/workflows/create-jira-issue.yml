@@ -23,7 +23,8 @@ on:
 
 jobs:
   create_issue:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: dindrunner
     name: Jira Example
   
     steps:
