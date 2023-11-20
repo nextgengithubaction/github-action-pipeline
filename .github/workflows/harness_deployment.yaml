@@ -8,6 +8,18 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Set up HashiCorp Vault 
+      uses: hashicorp/vault-action@v2 
+      with: 
+        #Reading secrets from Github secrets 
+        url: "${{ secrets.VAULT_URL }}" 
+        token: "${{ secrets.VAULT_SECRET }}" 
+        tlsSkipVerify: true 
+        #Reading secrets from hashicorp vault 
+        secrets: | 
+          secret/data/githubactions DOCKERHUB_USERNAME | DOCKERHUB_USERNAME ;
+          secret/data/githubactions DOCKERHUB_PASSWORD | DOCKERHUB_PASSWORD
     
     - name: Helm Setup
       run: |
@@ -19,8 +31,8 @@ jobs:
  
     - name: Build and push Docker image ACR
       env:
-        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        DOCKERHUB_USERNAME: ${{ env.DOCKERHUB_USERNAME }}
+        DOCKERHUB_PASSWORD: ${{ env.DOCKERHUB_PASSWORD }}
         IMAGE_TAG: ${{ github.run_id }}
       run: |
         docker login -u $DOCKERHUB_USERNAME gitopsdemo2023.azurecr.io -p $DOCKERHUB_PASSWORD
@@ -30,8 +42,8 @@ jobs:
 
     - name: Helm Package
       env:
-        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        DOCKERHUB_USERNAME: ${{ env.DOCKERHUB_USERNAME }}
+        DOCKERHUB_PASSWORD: ${{ env.DOCKERHUB_PASSWORD }}
       run: |
         helm registry login gitopsdemo2023.azurecr.io --username $DOCKERHUB_USERNAME  --password  $DOCKERHUB_PASSWORD
         helm package myhelmapp
