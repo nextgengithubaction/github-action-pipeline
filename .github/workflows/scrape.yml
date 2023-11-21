@@ -33,7 +33,7 @@ jobs:
       - name: Update package repositories
         run: sudo apt update
       - name: Install snap
-        run: sudo apt install snapd
+        run: sudo apt install --yes snapd
       - name: Start snap service
         run: sudo systemctl start snapd
       - name: Enable snap service
