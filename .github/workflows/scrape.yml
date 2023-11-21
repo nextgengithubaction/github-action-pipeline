@@ -13,7 +13,7 @@ env:
   
 jobs:
   scrape:
-    runs-on: ubuntu-latest
+    runs-on: dinrunner
     name: Selenium Scraper
         
     steps:
