@@ -15,22 +15,7 @@ env:
 jobs:
   scrape:
     runs-on: dindrunner
-        
     name: Selenium Scraper
-on:
-  push:
-    branches: [ 'selenium-sam' ]
-
-# Variables taken from repo secrets - can be replaced with passed variables for composite actions
-env:
-  WEBSITE: ${{ vars.SELENIUM_WEBSITE }}
-  LOAD_TIME: ${{ vars.SELENIUM_LOAD_TIME }}
-  PAGE_SOURCE: ${{ vars.SELENIUM_PAGE_SOURCE }}
-  ELEMENT: ${{ vars.SELENIUM_ELEMENT }}
-  
-jobs:
-  scrape:
-    runs-on: ubuntu-latest
         
     steps:
       - name: Repo checkout
