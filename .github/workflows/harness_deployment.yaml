@@ -70,8 +70,18 @@ jobs:
         sudo apt-get install python3-pip -y
         sudo pip install requests
         python3 ./.github/scripts/harness_start.py ${{ env.environment }}  ${{ env.IMAGE_TAG }}
-  deploy-qa:
+
+  selenium-dev:
     needs: deploy-dev
+    uses: ./.github/workflows/scrape.yml
+  
+  blazemeter-dev:
+    needs: deploy-dev
+    uses: ./.github/workflows/blazemeter.yml
+    secrets: inherit
+  
+  deploy-qa:
+    needs: [deploy-dev, selenium-dev, blazemeter-dev]
     runs-on: dindrunner
     environment: qa
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/Harness'  || github.ref == 'refs/heads/feature_app_insights_test'
@@ -89,8 +99,17 @@ jobs:
         sudo pip install requests
         python3 ./.github/scripts/harness_start.py ${{ env.environment }}  ${{ env.IMAGE_TAG }}
 
-  deploy-uat:
+  selenium-qa:
     needs: deploy-qa
+    uses: ./.github/workflows/scrape.yml
+  
+  blazemeter-qa:
+    needs: deploy-qa
+    uses: ./.github/workflows/blazemeter.yml
+    secrets: inherit
+
+  deploy-uat:
+    needs: [deploy-qa, selenium-qa, blazemeter-qa]
     runs-on: dindrunner
     environment: uat
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/Harness'  || github.ref == 'refs/heads/feature_app_insights_test'
@@ -109,8 +128,17 @@ jobs:
         sudo pip install requests
         python3 ./.github/scripts/harness_start.py ${{ env.environment }}  ${{ env.IMAGE_TAG }}
 
-  deploy-prod:
+  selenium-uat:
     needs: deploy-uat
+    uses: ./.github/workflows/scrape.yml
+  
+  blazemeter-uat:
+    needs: deploy-uat
+    uses: ./.github/workflows/blazemeter.yml
+    secrets: inherit
+
+  deploy-prod:
+    needs: [deploy-uat, selenium-uat, blazemeter-uat]
     runs-on: ubuntu-latest
     environment: prod
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/Harness'  || github.ref == 'refs/heads/feature_app_insights_test'
@@ -129,3 +157,11 @@ jobs:
         sudo pip install requests
         python3 ./.github/scripts/harness_start.py ${{ env.environment }}  ${{ env.IMAGE_TAG }}
 
+  selenium-prod:
+    needs: deploy-prod
+    uses: ./.github/workflows/scrape.yml
+  
+  blazemeter-prod:
+    needs: deploy-prod
+    uses: ./.github/workflows/blazemeter.yml
+    secrets: inherit
