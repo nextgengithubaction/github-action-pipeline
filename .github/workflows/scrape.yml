@@ -32,19 +32,11 @@ jobs:
       #   run: sudo apt purge chromium-browser
       - name: Update package repositories
         run: sudo apt update
-      - name: Install snap
-        run: sudo apt install --yes snapd
-      - name: Start snap service
-        run: sudo systemctl start snapd
-      - name: Enable snap service
-        run: sudo systemctl enable snapd
-      # - name: Install a new Chromium
-      #   run: sudo apt install -y chromium
-      - name: Install Chromium via Snap
-        run: sudo snap install chromium
+      - name: Install a new Chromium
+        run: sudo apt install -y chromium-browser
       - name: Install all necessary packages
         run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
       - name: Run the scraping script
-        run: python ./.github/scripts/scraper.py $WEBSITE $LOAD_TIME $PAGE_SOURCE $ELEMENT
+        run: python python ./.github/scripts/scraper.py $WEBSITE $LOAD_TIME $PAGE_SOURCE $ELEMENT
       - name: Selenium scrape completed
         run: echo "Selenium scrape completed"
