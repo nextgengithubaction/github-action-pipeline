@@ -33,6 +33,9 @@ jobs:
       
       - name: Install a new Chromium
         run: |
+          sudo apt-get update -y
+          sudo apt-get install gnupg -y
+          
           # sudo mkdir /usr/share/keyrings
           sudo chmod +wx /usr/share/keyrings
           sudo chown runner:runner /usr/share/keyrings
