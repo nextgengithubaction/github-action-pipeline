@@ -6,11 +6,11 @@ on:
     paths: '**/scrape.yml'
 
 env:
-  WEBSITE: ${{ secrets.SELENIUM_WEBSITE }}
-  LOAD_TIME: ${{ secrets.SELENIUM_LOAD_TIME }}
-  PAGE_SOURCE: ${{ secrets.SELENIUM_PAGE_SOURCE }}
-  ELEMENT: ${{ secrets.SELENIUM_ELEMENT }}
-
+  WEBSITE: ${{ vars.SELENIUM_WEBSITE }}
+  LOAD_TIME: ${{ vars.SELENIUM_LOAD_TIME }}
+  PAGE_SOURCE: ${{ vars.SELENIUM_PAGE_SOURCE }}
+  ELEMENT: ${{ vars.SELENIUM_ELEMENT }}
+  
 jobs:
   scrape:
     runs-on: ubuntu-latest
