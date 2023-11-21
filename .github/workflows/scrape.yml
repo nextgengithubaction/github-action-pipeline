@@ -28,7 +28,7 @@ jobs:
       
       - name: Setup Chromium
         run: |
-
+          sudo apt-get update -y
           sudo apt-get install -y gnupg
           
           # sudo mkdir /usr/share/keyrings
