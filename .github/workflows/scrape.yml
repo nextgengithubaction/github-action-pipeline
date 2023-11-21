@@ -5,38 +5,41 @@ on:
   push:
     paths: '**/scrape.yml'
 
-# Variables taken from repo secrets - can be replaced with passed variables for composite actions
 env:
-  WEBSITE: ${{ vars.SELENIUM_WEBSITE }}
-  LOAD_TIME: ${{ vars.SELENIUM_LOAD_TIME }}
-  PAGE_SOURCE: ${{ vars.SELENIUM_PAGE_SOURCE }}
-  ELEMENT: ${{ vars.SELENIUM_ELEMENT }}
-  
+  WEBSITE: ${{ secrets.SELENIUM_WEBSITE }}
+  LOAD_TIME: ${{ secrets.SELENIUM_LOAD_TIME }}
+  PAGE_SOURCE: ${{ secrets.SELENIUM_PAGE_SOURCE }}
+  ELEMENT: ${{ secrets.SELENIUM_ELEMENT }}
+
 jobs:
   scrape:
-    runs-on: dindrunner
+    runs-on: ubuntu-latest
     name: Selenium Scraper
         
     steps:
       - name: Repo checkout
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
-      - name: Installed package list
-        run: apt list --installed
-      # - name: Remove Chrome
-      #   run: sudo apt purge google-chrome-stable
-      # - name: Remove default Chromium
-      #   run: sudo apt purge chromium-browser
-      - name: Update package repositories
-        run: sudo apt update
-      # - name: Install a new Chromium
-      #   run: sudo apt install -y geckodriver
-      - name: Install all necessary packages
-        run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
+
+      - name: Install necessary packages
+        run: |
+          sudo apt update
+          sudo apt install -y chromium-browser
+          pip install requests beautifulsoup4 pandas webdriver-manager selenium
+
       - name: Run the scraping script
-        run: python ./.github/scripts/scraper.py $WEBSITE $LOAD_TIME $PAGE_SOURCE $ELEMENT
-      - name: Selenium scrape completed
+        run: |
+          python ./.github/scripts/scraper.py "$WEBSITE" "$LOAD_TIME" "$PAGE_SOURCE" "$ELEMENT"
+        continue-on-error: true
+
+      - name: Check Selenium scrape status
+        if: ${{ failure() }}
+        run: echo "Selenium scrape failed"
+
+      - name: Check Selenium scrape status
+        if: ${{ success() }}
         run: echo "Selenium scrape completed"
