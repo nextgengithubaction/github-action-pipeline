@@ -33,7 +33,7 @@ jobs:
       - name: Install a new Chromium
         run: |
           sudo apt-get update -y
-          sudo apt purge google-chrome-stable
+          # sudo apt purge google-chrome-stable
           sudo apt purge chromium-browser
           sudo apt install -y chromium-browser
           echo "Installed version:-"
