@@ -13,7 +13,7 @@ env:
   
 jobs:
   scrape:
-    runs-on: dinrunner
+    runs-on: dindrunner
     name: Selenium Scraper
         
     steps:
