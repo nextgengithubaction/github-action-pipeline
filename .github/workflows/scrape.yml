@@ -29,59 +29,16 @@ jobs:
       #   run: sudo apt purge google-chrome-stable
       # - name: Remove default Chromium
       #   run: sudo apt purge chromium-browser
-
       
       - name: Install a new Chromium
         run: |
           sudo apt-get update -y
-          sudo apt-get install gnupg -y
-          
-          # sudo mkdir /usr/share/keyrings
-          sudo chmod +wx /usr/share/keyrings
-          sudo chown runner:runner /usr/share/keyrings
+          sudo apt purge google-chrome-stable
+          sudo apt purge chromium-browser
+          sudo apt install -y chromium-browser
+          echo "Installed version:-"
+          which chromium-browser
 
-          # sudo mkdir /etc/apt/preferences.d/
-          sudo chmod +wx /etc/apt -R
-          sudo chown runner:runner /etc/apt -R
-
-          sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-buster.gpg] http://deb.debian.org/debian buster main" >>/etc/apt/sources.list.d/debian.list
-          sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-buster-updates.gpg] http://deb.debian.org/debian buster-updates main">>/etc/apt/sources.list.d/debian.list
-          sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/debian-security-buster.gpg] http://deb.debian.org/debian-security buster/updates main">>/etc/apt/sources.list.d/debian.list
-
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys DCC9EFBF77E11517
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 112695A0E562B32A
-
-          sudo apt-key export 77E11517 | sudo gpg --dearmour -o /usr/share/keyrings/debian-buster.gpg
-          sudo apt-key export 22F3D138 | sudo gpg --dearmour -o /usr/share/keyrings/debian-buster-updates.gpg
-          sudo apt-key export E562B32A | sudo gpg --dearmour -o /usr/share/keyrings/debian-security-buster.gpg
-
-          sudo echo "# Note: 2 blank lines are required between entries
-          Package: *
-          Pin: release a=eoan
-          Pin-Priority: 500
-           
-          Package: *
-          Pin: origin \"deb.debian.org\"
-          Pin-Priority: 300
-           
-          # Pattern includes 'chromium', 'chromium-browser' and similarly
-          # named dependencies:
-          Package: chromium*
-          Pin: origin \"deb.debian.org\"
-          Pin-Priority: 700" > /etc/apt/preferences.d/chromium.pref
-
-          sudo apt update
-          sudo apt install chromium
-          
-          # sudo apt-get update -y
-          # sudo apt install -y chromium-browser
-          # echo "Installed version:-"
-          # which chromium-browser
-          # chromium-browser
-
-      # - uses: browser-actions/setup-chrome@latest
-      # - run: chrome --version
       - name: Install all necessary packages
         run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
       - name: Run the scraping script
