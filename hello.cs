@@ -16,7 +16,7 @@ public class Program
     
         app.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync("Welcome to GitHub Demo 2.2!");
+            await context.Response.WriteAsync("Welcome to GitHub Demo 2.2 !");
         });
     
         app.MapGet("/hello", async context =>
