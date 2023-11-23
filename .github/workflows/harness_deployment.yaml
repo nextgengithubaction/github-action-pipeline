@@ -7,7 +7,7 @@ jobs:
     runs-on: dindrunner
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up HashiCorp Vault 
       uses: hashicorp/vault-action@v2 
@@ -59,7 +59,7 @@ jobs:
     steps:
     
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Deploy to DEV
       env:
         IMAGE_TAG: ${{ github.run_id }}
@@ -87,7 +87,7 @@ jobs:
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/Harness'  || github.ref == 'refs/heads/feature_app_insights_test'
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Deploy to QA
       env:
         IMAGE_TAG: ${{ github.run_id }}
@@ -116,7 +116,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Deploy to UAT
       env:
         IMAGE_TAG: ${{ github.run_id }}
@@ -145,7 +145,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Deploy to PROD
       env:
         IMAGE_TAG: ${{ github.run_id }}

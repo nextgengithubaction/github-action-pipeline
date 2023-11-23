@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Repo checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up HashiCorp Vault 
         uses: hashicorp/vault-action@v2 
