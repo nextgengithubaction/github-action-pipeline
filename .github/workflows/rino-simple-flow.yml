@@ -1,0 +1,14 @@
+name: simple flow
+on: [push]
+
+jobs:
+  run-shell-commands:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo a string
+        run: echo "hello world"
+      - name: mutiline command
+        run: |
+          node -v
+          npm -v
+         
