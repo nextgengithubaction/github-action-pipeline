@@ -8,12 +8,12 @@ on:
 
 jobs:
   Dotnetbuild:
-    runs-on: Windows-latest
+    runs-on: ubuntu-latest
     steps:   
       
       - name: build
         run: |
-          dir
+          ls -ltr
           dotnet build
 
 
