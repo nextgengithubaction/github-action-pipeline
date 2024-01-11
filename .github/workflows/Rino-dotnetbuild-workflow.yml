@@ -9,7 +9,10 @@ on:
 jobs:
   Dotnetbuild:
     runs-on: ubuntu-latest
-    steps:   
+    steps:
+      - uses: actions/checkout@v2.2.0
+        with:
+          fetch-depth: 0   
       
       - name: build
         run: |
