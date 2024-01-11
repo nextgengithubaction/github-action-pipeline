@@ -13,6 +13,7 @@ jobs:
       
       - name: build
         run: |
+          ls -ltR
           dotnet build
 
 
