@@ -13,7 +13,7 @@ jobs:
       
       - name: build
         run: |
-          cd ../../
+          cd ../../../
           ls -ltR
 
 
