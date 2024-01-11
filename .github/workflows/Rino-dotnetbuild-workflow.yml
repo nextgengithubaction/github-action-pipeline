@@ -8,7 +8,7 @@ on:
 
 jobs:
   Dotnetbuild:
-    runs-on: Windows
+    runs-on: Windows-latest
     steps:   
       
       - name: build
