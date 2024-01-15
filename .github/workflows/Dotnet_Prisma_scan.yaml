@@ -1,6 +1,8 @@
 name: Dotnet_prisma_scan
 
-on: [ push, workflow_dispatch ]
+on:
+  workflow_call:
+  workflow_dispatch:
 
 env:
   IMAGE_NAME: ${{ github.repository }}:${{ github.sha }}
