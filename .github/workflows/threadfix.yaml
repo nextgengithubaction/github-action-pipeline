@@ -1,0 +1,22 @@
+name: ThreadFix scan
+
+on:
+  push:
+    branches: ["feature/nikhil"]
+
+jobs:
+  threadfix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: ThreadFix scan
+        uses: PeerSignal/threadfix-action@1.0.0
+        env:
+          THREADFIX_API_KEY: ${{ secrets.THREADFIX_API_KEY }}
+          THREADFIX_URL: ${{ secrets.THREADFIX_URL }}
+          APPLICATION_ID: your-app-id
+          TEAM_ID: your-team-id
+          FOLDER_NAME: path-to-scan-results
