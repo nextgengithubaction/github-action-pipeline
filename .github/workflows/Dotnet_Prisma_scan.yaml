@@ -4,6 +4,7 @@ on:
   workflow_call:
   workflow_dispatch:
 
+# Getting image from the Jfrog Artifactory
 env:
   IMAGE_NAME: ${{ github.repository }}:${{ github.sha }}
 
