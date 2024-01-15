@@ -1,3 +1,5 @@
+name: Dotnet_prisma_scan
+
 on: [ push, workflow_dispatch ]
 
 env:
