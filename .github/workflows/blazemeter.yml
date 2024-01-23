@@ -39,7 +39,7 @@ jobs:
             secret/data/githubactions BLAZE_API_SECRET | apiSecret
       
       - name: Run Blazemeter test          
-        uses: BlazeRunner-BZR/Github-Action@v8.2
+        uses: BlazeRunner-BZR/Github-Action@v8.5
         id: run-test
         with:
           apiKey: a5bfd83813f102a2b7a68aa5
